@@ -57,7 +57,6 @@ export function CartProvider({children}) {
         const { data } = await axios.post(CART_URL, { productId: product.id }, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        console.log("Cart updated:", data);
         setCartItems(data.items);
     }
 

@@ -2,7 +2,6 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const errorHandler = (err, req, res, next) => {
   const statusCode = err.statusCode || err.status || 500;
-  if (statusCode >= 500) console.error(err);
 
   const message =
     statusCode >= 500 && isProduction ? "Internal Server Error" : err.message;

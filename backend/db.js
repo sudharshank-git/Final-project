@@ -15,6 +15,6 @@ export const db = new pg.Pool({
   password: process.env.DB_PASSWORD,
 });
 
-db.on("error", (err) => {
-  console.error("Unexpected database error:", err.message);
+db.on("error", () => {
+  // Pool-level database errors are handled by the app-level response flow.
 });
