@@ -12,6 +12,8 @@
   padding: 20px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
   margin-right: 20px;
+  display: flex;
+    flex-direction: column;
 }
 
 .dashboard-sidebar h2 {
@@ -28,6 +30,11 @@
   color: #111827;
   font-weight: 600;
   cursor: pointer;
+  text-align: left;
+}
+
+.dashboard-sidebar-button:last-child {
+  margin-top: auto;
   text-align: left;
 }
 

@@ -5,6 +5,8 @@ import SidebarButton from "../Components/Dashboard/SidebarButton.jsx";
 import ProductForm from "../Components/Dashboard/ProductForm.jsx";
 import ProductCardRow from "../Components/Dashboard/ProductCardRow.jsx";
 import "./Dashboard.css";
+import { useAuth } from "../Contexts/ContextProviders.jsx";
+import { useNavigate } from "react-router-dom";
 
 const emptyForm = {
   name: "",
@@ -17,6 +19,7 @@ const emptyForm = {
 };
 
 export default function Dashboard() {
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -25,7 +28,7 @@ export default function Dashboard() {
   const [editingId, setEditingId] = useState(null);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState(emptyForm);
-
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   const refreshProducts = async () => {
@@ -168,6 +171,15 @@ export default function Dashboard() {
           label="View Products"
           active={activeTab === "view"}
           onClick={openViewProducts}
+        />
+        <SidebarButton
+          label="logout"
+          onClick={() => {
+            if(!localStorage.removeItem("token")) {
+            setIsAuthenticated(!isAuthenticated);
+            navigate("/login", { replace: true });
+            }
+          }}
         />
       </aside>
 

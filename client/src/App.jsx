@@ -1,5 +1,5 @@
 import Header from "./Layouts/Header.jsx";
-import Route from "./Routing/Route.jsx";
+import Routers from "./Routing/Route.jsx";
 import { CartProvider } from "./Contexts/CartContext.jsx";
 import { SearchProvider } from "./Contexts/SearchContext.jsx";
 import { AuthProvider } from "./Contexts/AuthContext.jsx";
@@ -11,7 +11,7 @@ export default function App() {
         <AuthProvider>
           <CartProvider>
             <Header />
-            <Route />
+            <Routers />
           </CartProvider>
         </AuthProvider>
       </SearchProvider>

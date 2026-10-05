@@ -7,7 +7,7 @@ import Dashboard from "../Pages/Dashboard.jsx";
 import Wishlist from "../Pages/Wishlist.jsx";
 import Register from "../Pages/Register.jsx";
 
-export default function App() {
+export default function Routers() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />

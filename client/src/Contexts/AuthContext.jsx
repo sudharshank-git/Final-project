@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [submitting, setSubmitting] = useState(false);
-
+    const [isAuthenticated, setIsAuthenticated] = useState(localStorage.getItem("token"));
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -26,6 +26,7 @@ export function AuthProvider({ children }) {
             }
             
             localStorage.setItem("token", result.token);
+            setIsAuthenticated(true);
             window.dispatchEvent(new Event("auth-changed"));
             navigate(
                 location.state?.from?.pathname === "/login"
@@ -93,6 +94,8 @@ export function AuthProvider({ children }) {
             setSubmitting,
             handleLogin,
             handleRegister,
+            isAuthenticated,
+            setIsAuthenticated,
         }}>
             {children}
         </AuthContext.Provider>

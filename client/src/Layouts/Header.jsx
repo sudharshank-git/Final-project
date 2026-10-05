@@ -4,12 +4,13 @@ import Button from "../ui/Button.jsx";
 import InputBar from "../ui/InputBar.jsx";
 import { useCart } from "../Contexts/ContextProviders.jsx";
 import { useSearch } from "../Contexts/ContextProviders.jsx";
+import {useAuth} from "../Contexts/ContextProviders.jsx";
 
 export default function Header() {
   const [searchText, setSearchText] = useState("");
   const { CartCount } = useCart();
   const { handleSubmit } = useSearch();
-
+  const { isAuthenticated } = useAuth();
   function onchanging(event) {
     const value = event.target.value;
     setSearchText(value);
@@ -54,12 +55,15 @@ export default function Header() {
           <Link to="/cart">
             <Button>🛒 Cart {CartCount() !== 0 ? CartCount() : null}</Button>
           </Link>
-          <Link to="/login" className="btn btn-secondary">
-            Login
-          </Link>
-          <Link to="/dashboard" className="btn btn-secondary">
-            Dashboard
-          </Link>
+          {isAuthenticated ? (
+            <Link to="/dashboard" className="btn btn-secondary">
+              Dashboard
+            </Link>
+          ) : (
+            <Link to="/login" className="btn btn-secondary">
+              Login
+            </Link>
+          )}
         </nav>
       </div>
     </header>

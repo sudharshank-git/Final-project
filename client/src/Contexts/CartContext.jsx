@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useEffect, useState } from "react";
 import API_BASE_URL from "../api.js";
-
+import { useNavigate } from "react-router-dom";
 const CartContext = createContext();
 const CART_URL = `${API_BASE_URL}/cart`;
 
@@ -10,7 +10,7 @@ export function CartProvider({children}) {
     const [cartItems, setCartItems] = useState([]);
     const [loading, setLoading] = useState(Boolean(token));
     const [error, setError] = useState("");
-
+    const navigate = useNavigate();
     useEffect(() => {
         function syncToken() {
             setToken(localStorage.getItem("token"));
@@ -54,6 +54,11 @@ export function CartProvider({children}) {
     }, [token]);
 
     async function addToCart(product) {
+        if (!token) {
+            setError("You must be logged in to add items to the cart.");
+            navigate("/login", { replace: true });
+            return;
+        }
         const { data } = await axios.post(CART_URL, { productId: product.id }, {
             headers: { Authorization: `Bearer ${token}` },
         });
