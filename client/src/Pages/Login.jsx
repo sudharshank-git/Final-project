@@ -2,53 +2,28 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import API_BASE_URL from "../api.js";
+import { useAuth } from "../Contexts/ContextProviders.jsx";
+import { login } from "../hooks/auth.js";
 import "./Login.css";
 
 export default function Login() {
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { email, setEmail, password, setPassword , handleLogin } = useAuth();
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
-    setSubmitting(true);
-    try {
-      const res = await axios.post(`${API_BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
-      console.log("Response from server:", res.data);
-      const token = res.data?.token;
-
-      if (res.data.length === 0) {
-        navigate("/register", { replace: true });
-        setError("No user found. Please register first.");
-        return;
-      }
-      if (!token) {
-        setError("No token received");
-        return;
-      }
-      localStorage.setItem("token", token);
-      window.dispatchEvent(new Event("auth-changed"));
+    const result = await handleLogin({email, password});
+    localStorage.setItem("token", result.token);
+    window.dispatchEvent(new Event("auth-changed"));
       navigate(
         location.state?.from?.pathname === "/login"
           ? "/dashboard"
           : location.state?.from?.pathname || "/dashboard",
         { replace: true }
       );
-    } catch (err) {
-      navigate("/register", { replace: true });
-      setError(err.response?.data?.message || err.message);
-    } finally {
-      setSubmitting(false);
-    }
   }
 
   return (
