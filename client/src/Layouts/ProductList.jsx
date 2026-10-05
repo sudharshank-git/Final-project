@@ -24,10 +24,13 @@ export default function ProductList(props) {
           <strong>Category</strong> : {products[0].category}
         </div>
       ) : null}
-      {searchedTxt ? (
+      {searchedTxt ? (<>
+        <div>
+          <strong>Category</strong> : {products[0].category}
+        </div> 
         <div>
           <strong>Search</strong> : {searchedTxt}
-        </div>
+        </div></>
       ) : null}
       <div className="product-grid">
         {products.map((product) => (

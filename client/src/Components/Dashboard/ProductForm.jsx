@@ -1,10 +1,4 @@
-export default function ProductForm({
-  form,
-  onChange,
-  onSubmit,
-  onCancel,
-  editingId,
-  saving,
+export default function ProductForm({ form, onChange, onSubmit, onCancel, editingId, saving,
 }) {
   const setField = (field, value) =>
     onChange((prev) => ({ ...prev, [field]: value }));
@@ -108,13 +102,7 @@ export default function ProductForm({
           disabled={saving}
           className="dashboard-primary-btn"
         >
-          {saving
-            ? editingId
-              ? "Updating..."
-              : "Saving..."
-            : editingId
-              ? "Update Product"
-              : "Add Product"}
+          {saving ? (editingId ? "Updating..." : "Saving...") : (editingId ? "Update Product" : "Add Product")}
         </button>
       </div>
     </form>

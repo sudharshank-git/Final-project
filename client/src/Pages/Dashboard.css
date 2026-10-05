@@ -13,7 +13,7 @@
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.04);
   margin-right: 20px;
   display: flex;
-    flex-direction: column;
+  flex-direction: column;
 }
 
 .dashboard-sidebar h2 {
@@ -155,20 +155,40 @@
   color: #fff;
 }
 
-.dashboard-list {
-  display: grid;
-  gap: 12px;
-}
-
-.dashboard-row {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr 0.8fr 0.8fr auto;
-  gap: 12px;
-  align-items: center;
-  padding: 16px 18px;
+.dashboard-table-wrapper {
+  overflow-x: auto;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   background: #fff;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.dashboard-table th {
+  background: #f9fafb;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #374151;
+}
+
+.dashboard-row {
+  background: #fff;
+}
+
+.dashboard-row:last-child td {
+  border-bottom: none;
 }
 
 .dashboard-row-name {
@@ -176,36 +196,36 @@
   font-size: 1rem;
 }
 
-.dashboard-row-category {
-  color: #6b7280;
-  font-size: 0.85rem;
-}
-
-.dashboard-row-brand {
-  font-weight: 600;
-}
-
-.dashboard-row-price {
-  color: #6b7280;
-}
-
+.dashboard-row-category,
+.dashboard-row-brand,
+.dashboard-row-price,
 .dashboard-row-stock,
-.dashboard-row-rating,
-.dashboard-row-state {
+.dashboard-row-rating {
   color: #374151;
 }
 
+.dashboard-row-state {
+  display: inline-block;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
 .dashboard-row-state.in-stock {
+  background: #dcfce7;
   color: #15803d;
 }
 
 .dashboard-row-state.out-stock {
+  background: #fee2e2;
   color: #b91c1c;
 }
 
 .dashboard-row-actions {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .dashboard-loading,

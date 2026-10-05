@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import API_BASE_URL from "../api.js";
 import SidebarButton from "../Components/Dashboard/SidebarButton.jsx";
 import ProductForm from "../Components/Dashboard/ProductForm.jsx";
 import ProductCardRow from "../Components/Dashboard/ProductCardRow.jsx";
 import "./Dashboard.css";
-import { useAuth } from "../Contexts/ContextProviders.jsx";
-import { useNavigate } from "react-router-dom";
+import { useAuth, useDashboard } from "../Contexts/ContextProviders.jsx";
 
 const emptyForm = {
   name: "",
@@ -19,39 +16,26 @@ const emptyForm = {
 };
 
 export default function Dashboard() {
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const { handleLogout } = useAuth();
+  const {
+    products,
+    loading,
+    error,
+    setError,
+    refreshProducts,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+  } = useDashboard();
   const [showForm, setShowForm] = useState(false);
   const [activeTab, setActiveTab] = useState("view");
   const [editingId, setEditingId] = useState(null);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState(emptyForm);
-  const navigate = useNavigate();
-  const token = localStorage.getItem("token");
-
-  const refreshProducts = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get(`${API_BASE_URL}/products`);
-      const fetchedProducts = res.data?.products || [];
-      setProducts(
-        fetchedProducts.length
-          ? [fetchedProducts[fetchedProducts.length - 1]]
-          : [],
-      );
-      setError("");
-    } catch (err) {
-      setError(err.response?.data?.message || "Unable to load products");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
-    setProducts([]);
-  }, []);
+    refreshProducts();
+  }, [refreshProducts]);
 
   const openAddForm = () => {
     setActiveTab("add");
@@ -103,19 +87,9 @@ export default function Dashboard() {
       let savedProduct;
 
       if (editingId) {
-        const res = await axios.put(
-          `${API_BASE_URL}/products/${editingId}`,
-          payload,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
-        );
-        savedProduct = res.data?.product?.[0] || res.data?.product || null;
+        savedProduct = await updateProduct(editingId, payload);
       } else {
-        const res = await axios.post(`${API_BASE_URL}/products`, payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        savedProduct = res.data?.product?.[0] || res.data?.product || null;
+        savedProduct = await createProduct(payload);
       }
 
       setShowForm(false);
@@ -124,17 +98,12 @@ export default function Dashboard() {
       setEditingId(null);
 
       if (savedProduct) {
-        setProducts((prev) => {
-          const next = prev.some((item) => item.id === savedProduct.id)
-            ? prev.map((item) =>
-                item.id === savedProduct.id ? savedProduct : item,
-              )
-            : [savedProduct];
-          return next;
-        });
+        refreshProducts();
       }
     } catch (err) {
-      setError(err.response?.data?.message || "Unable to save product");
+      setError(
+        err.response?.data?.message || err.message || "Unable to save product",
+      );
     } finally {
       setSaving(false);
     }
@@ -145,16 +114,18 @@ export default function Dashboard() {
 
     try {
       setError("");
-      await axios.delete(`${API_BASE_URL}/products/${productId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await deleteProduct(productId);
       if (editingId === productId) {
         setShowForm(false);
         setEditingId(null);
       }
-      setProducts((prev) => prev.filter((item) => item.id !== productId));
+      refreshProducts();
     } catch (err) {
-      setError(err.response?.data?.message || "Unable to delete product");
+      setError(
+        err.response?.data?.message ||
+          err.message ||
+          "Unable to delete product",
+      );
     }
   };
 
@@ -172,15 +143,7 @@ export default function Dashboard() {
           active={activeTab === "view"}
           onClick={openViewProducts}
         />
-        <SidebarButton
-          label="logout"
-          onClick={() => {
-            if(!localStorage.removeItem("token")) {
-            setIsAuthenticated(!isAuthenticated);
-            navigate("/login", { replace: true });
-            }
-          }}
-        />
+        <SidebarButton label="logout" onClick={handleLogout} />
       </aside>
 
       <main className="dashboard-main">
@@ -220,15 +183,31 @@ export default function Dashboard() {
             ) : products.length === 0 ? (
               <div className="dashboard-empty">No products found.</div>
             ) : (
-              <div className="dashboard-list">
-                {products.map((product) => (
-                  <ProductCardRow
-                    key={product.id}
-                    product={product}
-                    onEdit={openEditForm}
-                    onDelete={handleDelete}
-                  />
-                ))}
+              <div className="dashboard-table-wrapper">
+                <table className="dashboard-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Brand</th>
+                      <th>Price</th>
+                      <th>Stock</th>
+                      <th>Rating</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.map((product) => (
+                      <ProductCardRow
+                        key={product.id}
+                        product={product}
+                        onEdit={openEditForm}
+                        onDelete={handleDelete}
+                      />
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </>

@@ -3,6 +3,7 @@ import Routers from "./Routing/Route.jsx";
 import { CartProvider } from "./Contexts/CartContext.jsx";
 import { SearchProvider } from "./Contexts/SearchContext.jsx";
 import { AuthProvider } from "./Contexts/AuthContext.jsx";
+import { DashboardProvider } from "./Contexts/DashboardContext.jsx";
 
 export default function App() {
   return (
@@ -10,8 +11,10 @@ export default function App() {
       <SearchProvider>
         <AuthProvider>
           <CartProvider>
-            <Header />
-            <Routers />
+            <DashboardProvider>
+              <Header />
+              <Routers />
+            </DashboardProvider>
           </CartProvider>
         </AuthProvider>
       </SearchProvider>

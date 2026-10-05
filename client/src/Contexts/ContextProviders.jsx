@@ -2,6 +2,7 @@ import { CartContext } from "./CartContext.jsx";
 import { SearchContext } from "./SearchContext.jsx";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext.jsx";
+import { DashboardContext } from "./DashboardContext.jsx";
 
 export function useSearch() {
   const context = useContext(SearchContext);
@@ -23,6 +24,14 @@ export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
+
+export function useDashboard() {
+  const context = useContext(DashboardContext);
+  if (!context) {
+    throw new Error("useDashboard must be used within a DashboardProvider");
   }
   return context;
 }
