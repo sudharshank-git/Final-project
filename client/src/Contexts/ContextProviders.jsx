@@ -1,6 +1,7 @@
 import {CartContext} from "./CartContext";
 import {SearchContext} from "./SearchContext";
 import {useContext} from "react";
+import {AuthContext} from "./AuthContext";
 
 export function useSearch() {
   const context = useContext(SearchContext);

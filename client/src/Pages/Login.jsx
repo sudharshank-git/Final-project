@@ -1,29 +1,13 @@
-import { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
-import API_BASE_URL from "../api.js";
 import { useAuth } from "../Contexts/ContextProviders.jsx";
-import { login } from "../hooks/auth.js";
 import "./Login.css";
 
 export default function Login() {
-
-  const { email, setEmail, password, setPassword , handleLogin } = useAuth();
-  const [error, setError] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-
+  const { email, setEmail, password, setPassword, handleLogin, error, setError, submitting } = useAuth();
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const result = await handleLogin({email, password});
-    localStorage.setItem("token", result.token);
-    window.dispatchEvent(new Event("auth-changed"));
-      navigate(
-        location.state?.from?.pathname === "/login"
-          ? "/dashboard"
-          : location.state?.from?.pathname || "/dashboard",
-        { replace: true }
-      );
+    setError("");
+    await handleLogin({ email, password });
   }
 
   return (
