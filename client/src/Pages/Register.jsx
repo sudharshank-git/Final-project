@@ -18,7 +18,14 @@ export default function Register() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    await handleRegister({ username, email, password });
+
+    const payload = {
+      username: String(username).trim(),
+      email: String(email).trim().toLowerCase(),
+      password,
+    };
+
+    await handleRegister(payload);
   }
 
   return (

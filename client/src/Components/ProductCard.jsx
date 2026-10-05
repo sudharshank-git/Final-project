@@ -1,7 +1,8 @@
-import Button from "./Button";
+import Button from "../ui/Button.jsx";
 import "./ProductCard.css";
 
-const DEFAULT_DESCRIPTION = "A 20L pack with a padded back panel and water-resistant zips.";
+const DEFAULT_DESCRIPTION =
+  "A 20L pack with a padded back panel and water-resistant zips.";
 
 export default function ProductCard({
   title,
@@ -22,7 +23,9 @@ export default function ProductCard({
       <div className="product-header">
         <div className="card-header">
           <h2>{title}</h2>
-          <Button onClick={onAddToWishlist} id="wishlist-icon">♡</Button>
+          <Button onClick={onAddToWishlist} id="wishlist-icon">
+            ♡
+          </Button>
         </div>
         <span className="category">{category}</span>
         <p className="description">{description}</p>

@@ -7,7 +7,13 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
-    await handleLogin({ email, password });
+
+    const payload = {
+      email: String(email).trim().toLowerCase(),
+      password,
+    };
+
+    await handleLogin(payload);
   }
 
   return (

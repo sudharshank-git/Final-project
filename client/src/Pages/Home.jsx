@@ -1,9 +1,8 @@
 import "./Home.css";
-import ProductList from "../Components/ProductList";
-import CategoryList from "../Components/CategoryList";
+import ProductList from "../Layouts/ProductList.jsx";
+import CategoryList from "../Layouts/CategoryList.jsx";
 
 export default function Home() {
-
   return (
     <div className="home-page">
       <CategoryList />

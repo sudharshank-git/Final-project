@@ -1,12 +1,11 @@
-import CategoryCard from "./CategoryCard";
-import { useProducts } from "../hooks/useProducts";
-import { useSearch } from "../Contexts/ContextProviders";
+import CategoryCard from "../Components/CategoryCard.jsx";
+import { useProducts } from "../hooks/useProducts.js";
+import { useSearch } from "../Contexts/ContextProviders.jsx";
 import "./CategoryList.css";
 
 export default function CategoryList() {
   const { products, loading, error } = useProducts("/products");
   const { handleCategoryClick, selectedCategory } = useSearch();
-
 
   const counts = products.reduce((acc, product) => {
     const category = product.category || "Uncategorized";
@@ -14,12 +13,16 @@ export default function CategoryList() {
     return acc;
   }, {});
 
-  const categories = Object.entries(counts)
-    .map(([category, count]) => ({ category, count }));
+  const categories = Object.entries(counts).map(([category, count]) => ({
+    category,
+    count,
+  }));
 
-  if (loading) return <div className="category-list loading">Loading categories...</div>;
+  if (loading)
+    return <div className="category-list loading">Loading categories...</div>;
   if (error) return <div className="category-list error">{error}</div>;
-  if (categories.length === 0) return <div className="category-list empty">No categories found</div>;
+  if (categories.length === 0)
+    return <div className="category-list empty">No categories found</div>;
 
   return (
     <div className="category-list-container">
@@ -31,7 +34,7 @@ export default function CategoryList() {
             category={category}
             productCount={count}
             isSelected={selectedCategory === category}
-            onClick={(category)=> {
+            onClick={(category) => {
               handleCategoryClick(category);
             }}
           />

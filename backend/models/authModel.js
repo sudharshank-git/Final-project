@@ -12,7 +12,7 @@ export const createUser = async ({ username, email, passwordHash }) => {
 
 export const findUserByEmail = async (email) => {
   const result = await db.query(
-    `SELECT * FROM ${schema}.users WHERE email = $1`,
+    `SELECT id, username, email FROM ${schema}.users WHERE email = $1`,
     [email]
   );
   return result.rows[0];

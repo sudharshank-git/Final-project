@@ -8,28 +8,28 @@ import Wishlist from "../Pages/Wishlist.jsx";
 import Register from "../Pages/Register.jsx";
 
 export default function App() {
-    return (
-        <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route
-            path="/cart"
-            element={
-            <AuthRoute>
-                <Cart />
-            </AuthRoute>
-            }
-        />
-        <Route
-            path="/dashboard"
-            element={
-            <AuthRoute>
-                <Dashboard />
-            </AuthRoute>
-            }
-        />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        </Routes>
-    );
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/wishlist" element={<Wishlist />} />
+      <Route
+        path="/cart"
+        element={
+          <AuthRoute>
+            <Cart />
+          </AuthRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <AuthRoute>
+            <Dashboard />
+          </AuthRoute>
+        }
+      />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
+  );
 }

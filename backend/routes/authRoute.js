@@ -6,7 +6,7 @@ const router = express.Router();
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  limit: 10,
+  limit: 100,
   standardHeaders: true,
   legacyHeaders: false,
   statusCode: 429,
@@ -14,6 +14,6 @@ const loginLimiter = rateLimit({
 });
 
 router.post("/register", registerUser);
-router.post("/login", loginLimiter, loginUser);
+router.post("/login", loginUser);
 
 export default router;

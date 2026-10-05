@@ -20,11 +20,11 @@ export function AuthProvider({ children }) {
 
         try {
             const result = await login(credentials);
-            if (!result?.token) {
+            if (!result.token) {
                 setError("No token received");
                 return null;
             }
-
+            
             localStorage.setItem("token", result.token);
             window.dispatchEvent(new Event("auth-changed"));
             navigate(
@@ -36,6 +36,12 @@ export function AuthProvider({ children }) {
             return result;
         } catch (err) {
             setError(err?.message || "Login failed. Please check your credentials.");
+            if (err?.message === "User Not Found") {
+                setPassword("");
+                setEmail("");
+                setUsername("");
+                navigate("/register", { state: { from: location }, replace: true });
+            }
             return null;
         } finally {
             setSubmitting(false);
@@ -67,6 +73,9 @@ export function AuthProvider({ children }) {
             return null;
         } finally {
             setSubmitting(false);
+            setPassword("");
+            setEmail("");
+            setUsername("");
         }
     };
 

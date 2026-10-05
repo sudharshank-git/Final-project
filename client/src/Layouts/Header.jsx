@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Button from "./Button";
-import InputBar from "./InputBar";
-import {useCart} from "../Contexts/ContextProviders";
-import {useSearch} from "../Contexts/ContextProviders";
+import Button from "../ui/Button.jsx";
+import InputBar from "../ui/InputBar.jsx";
+import { useCart } from "../Contexts/ContextProviders.jsx";
+import { useSearch } from "../Contexts/ContextProviders.jsx";
 
 export default function Header() {
   const [searchText, setSearchText] = useState("");

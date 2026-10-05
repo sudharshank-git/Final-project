@@ -1,9 +1,9 @@
-import ProductList from '../Components/ProductList';
+import ProductList from "../Layouts/ProductList.jsx";
 
 export default function Wishlist() {
-    return (
-        <div className="home-page">
-            <ProductList title= "Wishlist" endpoint="/products" category=""/>
-        </div>
-    );
+  return (
+    <div className="home-page">
+      <ProductList title="Wishlist" endpoint="/products" category="" />
+    </div>
+  );
 }
