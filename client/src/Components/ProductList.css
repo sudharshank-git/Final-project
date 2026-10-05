@@ -1,0 +1,31 @@
+.product-list {
+  padding: 1rem 2rem;
+  flex: 1;
+}
+
+.product-list h1 {
+  margin-bottom: 1rem;
+  color: #000000;
+}
+.product-list >div {
+  margin-bottom: 1rem;
+  color: #000000;
+}
+.product-list h2 {
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.product-list.loading,
+.product-list.error,
+.product-list.empty {
+  text-align: center;
+  padding: 3rem;
+  color: #94a3b8;
+}

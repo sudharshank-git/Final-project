@@ -1,0 +1,44 @@
+.category-list-container {
+  padding: 1rem 2rem;
+}
+
+.category-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+.active {
+  background-color: #0f0f0f;
+  color: white;
+}
+.category-container > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-card > div {
+  width: 200px;
+  height: 100px;
+  display: flex;
+  border: 5px groove black;
+  border-radius: 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.category-list.loading,
+.category-list.error,
+.category-list.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+}
