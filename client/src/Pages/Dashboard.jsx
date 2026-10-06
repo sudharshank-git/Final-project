@@ -57,7 +57,7 @@ export default function Dashboard() {
     setEditingId(product.id);
     setForm({
       name: product.name,
-      category: product.category,
+      category: (product.category[0].toLowerCase() + product.category.slice(1)),
       brand: product.brand,
       price: String(product.price),
       stock: String(product.stock),

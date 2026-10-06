@@ -7,11 +7,7 @@ export async function login({ email, password }) {
       email: String(email).trim().toLowerCase(),
       password,
     };
-
-    console.log("LOGIN PAYLOAD =>", payload);
-
     const res = await axios.post(`${API_BASE_URL}/auth/login`, payload);
-    console.log("LOGIN RESPONSE =>", res.data);
 
     const token = res.data?.token;
     if (!token) {
@@ -19,7 +15,6 @@ export async function login({ email, password }) {
     }
     return { response: res.data, token };
   } catch (err) {
-    console.log("LOGIN ERROR =>", err?.response?.data || err?.message || err);
     const message =
       err?.response?.data?.message ||
       err?.message ||

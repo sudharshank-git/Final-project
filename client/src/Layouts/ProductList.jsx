@@ -2,13 +2,14 @@ import ProductCard from "../Components/ProductCard.jsx";
 import { useProducts } from "../hooks/useProducts.js";
 import "./ProductList.css";
 import ErrorBanner from "../ui/ErrorBanner.jsx";
-import { useCart } from "../Contexts/ContextProviders.jsx";
+import { useCart, useWishlist } from "../Contexts/ContextProviders.jsx";
 import { useSearch } from "../Contexts/ContextProviders.jsx";
 
 export default function ProductList(props) {
   const { endpt, searchedTxt, selectedCategory } = useSearch();
   const { addToCart, cartItems } = useCart();
   const { products, loading, error } = useProducts(endpt);
+  const { addToWishlist, onWishlist, removeFromWishlist } = useWishlist();
 
   if (loading)
     return <div className="product-list loading">Loading products...</div>;
@@ -23,15 +24,15 @@ export default function ProductList(props) {
         <div>
           <strong>Category</strong> : {products[0].category}
         </div>
-      ) : null}
-      {searchedTxt ? (<>
+      ) : (searchedTxt ? (<>
         <div>
           <strong>Category</strong> : {products[0].category}
         </div> 
         <div>
           <strong>Search</strong> : {searchedTxt}
         </div></>
-      ) : null}
+      ) : null)}
+      
       <div className="product-grid">
         {products.map((product) => (
           <ProductCard
@@ -45,6 +46,7 @@ export default function ProductList(props) {
             description={product.description}
             price={product.price}
             onAddToCart={() => addToCart(product)}
+            onWishlist={() => addToWishlist(product)}
             addedToCart={cartItems.some((item) => item.id === product.id)}
           />
         ))}

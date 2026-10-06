@@ -15,15 +15,17 @@ export default function ProductCard({
   inStock,
   onAddToCart,
   onRemoveFromCart,
-  onAddToWishlist,
+  onWishlistPage,
+  onRemoveFromWishlist,
   addedToCart,
+  onWishlist,
 }) {
   return (
     <div className="product-card">
       <div className="product-header">
         <div className="card-header">
           <h2>{title}</h2>
-          <Button onClick={onAddToWishlist} id="wishlist-icon">
+          <Button onClick={onWishlist} id="wishlist-icon" className="cart-btn">
             ♡
           </Button>
         </div>
@@ -56,7 +58,18 @@ export default function ProductCard({
         </span>
       </div>
 
-      {onRemoveFromCart ? (
+      
+      {onWishlistPage ? (onRemoveFromWishlist ? (
+          <>
+            <button type="button" onClick={onRemoveFromWishlist} className="cart-btn">
+              Remove from Wishlist
+            </button>
+            <button type="button" onClick={onAddToCart} className="cart-btn">
+                {addedToCart ? "View Cart" : "Move to Cart"}
+            </button>
+          </>
+      ) : (null))
+      :(onRemoveFromCart ? (
         <button type="button" onClick={onRemoveFromCart} className="cart-btn">
           Remove from Cart
         </button>
@@ -64,7 +77,8 @@ export default function ProductCard({
         <button type="button" onClick={onAddToCart} className="cart-btn">
           {addedToCart ? "View Cart" : "Add to Cart"}
         </button>
-      )}
+      ))
+      }
     </div>
   );
 }

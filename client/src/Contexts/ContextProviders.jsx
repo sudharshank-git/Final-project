@@ -3,7 +3,7 @@ import { SearchContext } from "./SearchContext.jsx";
 import { useContext } from "react";
 import { AuthContext } from "./AuthContext.jsx";
 import { DashboardContext } from "./DashboardContext.jsx";
-
+import { WishlistContext } from "./WishlistContext.jsx";
 export function useSearch() {
   const context = useContext(SearchContext);
   if (!context) {
@@ -16,6 +16,14 @@ export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
     throw new Error("useCart must be used within a CartProvider");
+  }
+  return context;
+}
+
+export function useWishlist() {
+  const context = useContext(WishlistContext);
+  if (!context) {
+    throw new Error("useWishlist must be used within a WishlistProvider");
   }
   return context;
 }

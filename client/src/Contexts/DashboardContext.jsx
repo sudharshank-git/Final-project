@@ -1,88 +1,79 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
+import { createContext, useCallback, useContext, useEffect, useState,
 } from "react";
-import {
-  createDashboardProduct,
-  deleteDashboardProduct,
-  fetchDashboardProducts,
-  updateDashboardProduct,
+import { createDashboardProduct, deleteDashboardProduct, fetchDashboardProducts, updateDashboardProduct,
 } from "../hooks/dashboard.js";
 
 const DashboardContext = createContext();
 
 export function DashboardProvider({ children }) {
-  const [token, setToken] = useState(() => localStorage.getItem("token"));
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+    const [token, setToken] = useState(() => localStorage.getItem("token"));
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
-  useEffect(() => {
-    const syncToken = () => {
-      setToken(localStorage.getItem("token"));
-    };
+    useEffect(() => {
+        const syncToken = () => {
+            setToken(localStorage.getItem("token"));
+        };
 
-    window.addEventListener("auth-changed", syncToken);
-    return () => window.removeEventListener("auth-changed", syncToken);
-  }, []);
+        window.addEventListener("auth-changed", syncToken);
+        return () => window.removeEventListener("auth-changed", syncToken);
+    }, []);
 
-  const refreshProducts = useCallback(
-    async ({ latestOnly = false } = {}) => {
-      if (!token) {
-        setProducts([]);
-        setLoading(false);
-        setError("");
-        return [];
-      }
+    const refreshProducts = useCallback(
+        async ({ latestOnly = false } = {}) => {
+        if (!token) {
+            setProducts([]);
+            setLoading(false);
+            setError("");
+            return [];
+        }
 
-      try {
+    try {
         setLoading(true);
         setError("");
 
         const data = await fetchDashboardProducts(token);
         const list = Array.isArray(data?.products) ? data.products : [];
         const nextProducts =
-          latestOnly && list.length ? [list[list.length - 1]] : list;
+        latestOnly && list.length ? [list[list.length - 1]] : list;
         setProducts(nextProducts);
         return nextProducts;
-      } catch (err) {
+    } catch (err) {
         const message =
-          err?.response?.data?.message ||
-          err?.message ||
-          "Unable to load products";
+        err?.response?.data?.message ||
+        err?.message ||
+        "Unable to load products";
         setError(message);
         setProducts([]);
         return [];
-      } finally {
+    } finally {
         setLoading(false);
-      }
+    }
     },
     [token],
-  );
+);
 
-  const createProduct = useCallback(
+const createProduct = useCallback(
     async (payload) => {
-      if (!token) {
+    if (!token) {
         throw new Error("You must be logged in to add a product.");
-      }
+    }
 
-      const data = await createDashboardProduct(token, payload);
-      const product = data?.product?.[0] || data?.product || null;
+    const data = await createDashboardProduct(token, payload);
+    const product = data?.product?.[0] || data?.product || null;
 
-      if (product) {
+    if (product) {
         setProducts((prev) => {
-          const exists = prev.some((item) => item.id === product.id);
-          if (exists) {
+        const exists = prev.some((item) => item.id === product.id);
+        if (exists) {
             return prev.map((item) =>
-              item.id === product.id ? product : item,
+                item.id === product.id ? product : item,
             );
-          }
-          return [product, ...prev];
+        }
+        return [product, ...prev];
         });
-      }
+    }
 
       return product;
     },

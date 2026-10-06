@@ -5,12 +5,14 @@ import InputBar from "../ui/InputBar.jsx";
 import { useCart } from "../Contexts/ContextProviders.jsx";
 import { useSearch } from "../Contexts/ContextProviders.jsx";
 import {useAuth} from "../Contexts/ContextProviders.jsx";
-
+import { useWishlist } from "../Contexts/ContextProviders.jsx";
 export default function Header() {
   const [searchText, setSearchText] = useState("");
   const { CartCount } = useCart();
   const { handleSubmit } = useSearch();
   const { isAuthenticated } = useAuth();
+  const { onWishlistCount } = useWishlist();
+
   function onchanging(event) {
     const value = event.target.value;
     setSearchText(value);
@@ -50,7 +52,7 @@ export default function Header() {
             Home
           </Link>
           <Link to="/Wishlist">
-            <Button>Wishlist ♡</Button>
+            <Button>Wishlist ♡{onWishlistCount() !== 0 ? onWishlistCount() : null}</Button>
           </Link>
           <Link to="/cart">
             <Button>🛒 Cart {CartCount() !== 0 ? CartCount() : null}</Button>

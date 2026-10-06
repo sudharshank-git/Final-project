@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
                 setTimeout(() => {
                     setError("");
                     navigate("/register", { state: { from: location }, replace: true });
-                }, 2000);
+                }, 1000);
             }
             return null;
         } finally {
