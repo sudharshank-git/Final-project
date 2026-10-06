@@ -6,6 +6,7 @@ import { useCart } from "../Contexts/ContextProviders.jsx";
 import { useSearch } from "../Contexts/ContextProviders.jsx";
 import {useAuth} from "../Contexts/ContextProviders.jsx";
 import { useWishlist } from "../Contexts/ContextProviders.jsx";
+import Badge from "../ui/Badge.jsx";
 export default function Header() {
   const [searchText, setSearchText] = useState("");
   const { CartCount } = useCart();
@@ -52,10 +53,10 @@ export default function Header() {
             Home
           </Link>
           <Link to="/Wishlist">
-            <Button>Wishlist ♡{onWishlistCount() !== 0 ? onWishlistCount() : null}</Button>
+            <Button>♡ Wishlist {onWishlistCount() !== 0 ? <Badge>{onWishlistCount()}</Badge> : null}</Button>
           </Link>
           <Link to="/cart">
-            <Button>🛒 Cart {CartCount() !== 0 ? CartCount() : null}</Button>
+            <Button>🛒 Cart {CartCount() !== 0 ? <Badge>{CartCount()}</Badge> : null}</Button>
           </Link>
           {isAuthenticated ? (
             <Link to="/dashboard" className="btn btn-secondary">

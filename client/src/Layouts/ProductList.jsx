@@ -7,9 +7,9 @@ import { useSearch } from "../Contexts/ContextProviders.jsx";
 
 export default function ProductList(props) {
   const { endpt, searchedTxt, selectedCategory } = useSearch();
-  const { addToCart, cartItems } = useCart();
+  const { addToCart, cartItems , removeFromCart} = useCart();
   const { products, loading, error } = useProducts(endpt);
-  const { addToWishlist, onWishlist, removeFromWishlist } = useWishlist();
+  const { addToWishlist, onWishlist, removeFromWishlist , wishlistItems} = useWishlist();
 
   if (loading)
     return <div className="product-list loading">Loading products...</div>;
@@ -46,8 +46,12 @@ export default function ProductList(props) {
             description={product.description}
             price={product.price}
             onAddToCart={() => addToCart(product)}
+            onRemoveFromCart={()=> removeFromCart(product.id)}
+            moveToCart = {() => (addToCart(product) && removeFromWishlist(product.id))}
+            onWishlistPage={wishlistItems.some((item)=> item.id === product.id) }
             onWishlist={() => addToWishlist(product)}
             addedToCart={cartItems.some((item) => item.id === product.id)}
+            onRemoveWishlist={()=> removeFromWishlist(product.id)}
           />
         ))}
       </div>

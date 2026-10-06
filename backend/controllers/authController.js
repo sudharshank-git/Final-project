@@ -42,7 +42,6 @@ export const registerUser = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   const { email, password } = validate(Schema.loginSchema, req.body);
-  console.log(req)
   const user = await Model.findUserByEmail(email.toLowerCase());
   if (!user) throw new HttpError(401, "User Not Found");
 

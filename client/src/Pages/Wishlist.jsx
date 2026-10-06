@@ -28,8 +28,8 @@ export default function Wishlist() {
               stock={product.stock}
               inStock={product.instock}
               onWishlistPage={wishlistItems.some((item) => item.id === product.id)}
-              onAddToCart={() => (addToCart(product) && removeFromWishlist(product.id))}
-              onRemoveFromWishlist={() => removeFromWishlist(product.id)}
+              moveToCart={() => (addToCart(product) && removeFromWishlist(product.id))}
+              onRemoveWishlist={() => removeFromWishlist(product.id)}
             />
           ))}
         </div>
